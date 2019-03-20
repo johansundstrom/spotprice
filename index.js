@@ -1,15 +1,14 @@
-var keys = [];
-var values = [];
-var myObj = {};
+var keys = []; //skapa global arr av keys
+var values = []; //skapa global arr av values
+var myObj = {}; //skapa global objekt
 
-// function makeKey(key){
-// 	keys.push(key[i]);
-// }
-// function makeValue(value){
-// 	values.push(value[i]);
-// }
+processFile('spotprice.sdv');
 
+
+// en callback function som exekveras asynkront
 function processFile(inputFile) {
+    console.log(`Öppnar: ${inputFile}`)
+
 	var fs = require('fs'),
 		readline = require('readline'),
 		instream = fs.createReadStream(inputFile),
@@ -20,143 +19,34 @@ function processFile(inputFile) {
 	rl.on('line', function(line) {
 
 		// datatyper
-		var key;
+        var key;
+        var tempkeys = [];
 		var value;
 
+        // keys
 		if (line.startsWith("# Data type(PR);"))  {
 			line = line.replace("# ", "");
 			key = line.split(";");
-
 			//populera arr
 			key.forEach(function(element){
 				keys.push(element);
-				//console.log(element);	
 			});
-
-			// utläs arr
-			for (var i = 0; i < keys.length; i++) {
-				//console.log(keys[i]);
-			}
 		}
 
 		// värden
 		if (line.search("SE3;SEK;") > 0) {
+            line = line.replace(",", ".");
 			value = line.split(";");
-			
 			// populera arr
 			value.forEach(function(element){
 				values.push(element);
 			});
-
-			//utläs arr
-			for (var i = 0; i < value.length; i++) {
-				//console.log(value[i]);
-			}
 		}
-
-		// for(i=0; i<values.length; i++){
-		// 	var obj={};
-		// 	for (j=0; j<keys.length; j++){
-		// 		obj[keys[j]]=values[i][j];
-		// 	 }
-		// 	//myObj.push(obj);
-		// 	console.log(obj);
-		// }
-
-		// values.forEach(r => {
-		// 	let obj = {};
-		// 	r.forEach((r, i) => {
-		// obj[keys[i]] = r;
-		// 	});
-		// 	myObj.push(obj);
-		// });
-		// console.log(myObj);
-
-		// skapa ny array
-		// keys.forEach((key, i) => obj[key] = values[i]);
-		// for (var i = 0; i < keys.length; i++) {
-		// 	obj[keys[i]] = values[i];
-		// }
-
-		// for (var i = 0; i < keys.length; i++) {
-		// 	console.log(keys[i]);
-		// }
-		//console.log(obj);
-		//key.forEach(function(element){
-		//	arr = 
-		//});
-		//console.log(value[0]);
-
-		
-		// for (var i = 0; i < keys.length; i++) {
-		// 	console.log(keys[i] + ":" + i + "--" + values[i]);
-		// }
-
-		// if (line.startsWith("ST")) {
-		// 	line = line.replace("ST;", "");
-		// 	var timeMade = line.split(";");
-		// 	console.log(timeMade);
-		// }
-		// if (line.search("SE3;SEK;") > 0) {
-		// 	var timeCost = line.split(";");
-		// 	console.log(timeCost);
-		// }
-		
 	});
-
-
-
-
-
 
 	rl.on('close', function (line) {
-		//console.log(line);
-		console.log('done reading file.');
+        // slå ihop till objekt
+        keys.forEach((key, i) => myObj[key] = values[i]);
+        console.log(`Kl. 05:00: ${myObj.Hour5} ${myObj.Currency}`);
 	});
 }
-
-
-
-processFile('spotprice.sdv');
-//console.log(keys);
-for (var i = 0; i < keys.length; i++) {
-	//console.log(keys[i]);
-}
-
-// const csvdata = require('csvdata');
-
-// csvdata.load('spotprice.sdv', [
-//     {
-//         append: 'false',
-//         delimiter: ';',
-//         empty: false,
-//         encoding: 'utf8',
-//         header: false,
-//         log: true
-//       }    
-// ]);
-
-
-
-// var ftpClient = require('ftp-client'),
-//     config = {
-//         host: 'ftp.nordpoolspot.com',
-//         port: 21,
-//         user: 'spot',
-//         password: 'spo1245t'
-//     },
-//     options = {
-//         logging: 'basic'
-//     },
-//     client = new ftpClient(config, options);
-
-// client.connect(function () {
-//     console.log(`Connecting to: ${config.host}`);
-
-//     client.download('./', './', {
-//         overwrite: 'all'
-//     }, function (result) {
-//         console.log(result);
-//     });
-
-// });

@@ -1,18 +1,21 @@
-var results = [
-    ["Luke May", 43, "male", "married"],
-    ["Sarah Saw", 54, "female", "single"],
-    ["Magac gose", 51, "male", "single"]
-  ];
-  var keys = ["name", "age", "gender", "status"];
-  
-  var objectArray = []; // your result
-  
-  results.forEach(r => {
-    let obj = {};
-    r.forEach((r, i) => {
-  obj[keys[i]] = r;
-    });
-    objectArray.push(obj);
-  });
-  
-  console.log(objectArray);
+var keys = []; //skapa global arr av myKeys
+var readline = require('readline');
+var fs = require('fs');
+
+var myInterface = readline.createInterface({
+  input: fs.createReadStream('spotprice.sdv')
+});
+
+var key;
+myInterface.on('line', function (line) {
+    if (line.startsWith("# Data type(PR);"))  {
+        line = line.replace("# ", "");
+        key = line.split(";");
+        keys.push(key);
+        //console.log('Line number ' + lineno + ': ' + line);
+        for (var i = 0; i < keys.length; i++) {
+            console.log(keys[i]);
+        }
+    }
+});
+
