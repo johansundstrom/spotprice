@@ -1,13 +1,13 @@
 var keys = []; //skapa global arr av keys
 var values = []; //skapa global arr av values
 var myObj = {}; //skapa global objekt
+var timeMade = []; //fil skapades
 
 processFile('spotprice.sdv');
 
 
 // en callback function som exekveras asynkront
 function processFile(inputFile) {
-    console.log(`Öppnar: ${inputFile}`)
 
 	var fs = require('fs'),
 		readline = require('readline'),
@@ -20,8 +20,18 @@ function processFile(inputFile) {
 
 		// datatyper
         var key;
-        var tempkeys = [];
 		var value;
+
+        // tid
+		if (line.startsWith("ST;"))  {
+			line = line.replace("ST;", "");
+			time = line.split(";");
+			//populera arr
+			//console.log(time);
+			time.forEach(function(element){
+				timeMade.push(element);
+			});
+		}
 
         // keys
 		if (line.startsWith("# Data type(PR);"))  {
@@ -46,7 +56,10 @@ function processFile(inputFile) {
 
 	rl.on('close', function (line) {
         // slå ihop till objekt
-        keys.forEach((key, i) => myObj[key] = values[i]);
-        console.log(`Kl. 05:00: ${myObj.Hour5} ${myObj.Currency}`);
+		keys.forEach((key, i) => myObj[key] = values[i]);
+		
+		// skriv ut nåt
+		console.log("\x1b[33m%s\x1b[0m", `\r\nÖppnar: ${inputFile} från ${timeMade[0]} - ${timeMade[1]}`)
+        console.log(`\r\nKl. 05:00: ${myObj.Hour5} ${myObj.Currency}`);
 	});
 }
