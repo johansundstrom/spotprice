@@ -1,7 +1,7 @@
-var keys = []; //skapa global arr av keys
-var values = []; //skapa global arr av values
-var myObj = {}; //skapa global objekt
-var timeMade = []; //fil skapades
+var keys = []; //arr av keys
+var values = []; //arr av values
+var myObj = {}; //objekt
+var timeMade = []; //fil skapad
 
 processFile('spotprice.sdv');
 
@@ -15,14 +15,12 @@ function processFile(inputFile) {
 		outstream = new (require('stream'))(),
 		rl = readline.createInterface(instream, outstream);
 
-
 	rl.on('line', function(line) {
-
 		// datatyper
-        var key;
+	        var key;
 		var value;
 
-        // tid
+        	// tid
 		if (line.startsWith("ST;"))  {
 			line = line.replace("ST;", "");
 			time = line.split(";");
@@ -33,7 +31,7 @@ function processFile(inputFile) {
 			});
 		}
 
-        // keys
+        	// keys
 		if (line.startsWith("# Data type(PR);"))  {
 			line = line.replace("# ", "");
 			key = line.split(";");
@@ -45,7 +43,7 @@ function processFile(inputFile) {
 
 		// värden
 		if (line.search("SE3;SEK;") > 0) {
-            line = line.replace(",", ".");
+            		line = line.replace(",", ".");
 			value = line.split(";");
 			// populera arr
 			value.forEach(function(element){
@@ -56,10 +54,10 @@ function processFile(inputFile) {
 
 	rl.on('close', function (line) {
         // slå ihop till objekt
-		keys.forEach((key, i) => myObj[key] = values[i]);
+	keys.forEach((key, i) => myObj[key] = values[i]);
 		
-		// skriv ut nåt
-		console.log("\x1b[33m%s\x1b[0m", `\r\nÖppnar: ${inputFile} från ${timeMade[0]} - ${timeMade[1]}`)
+	// skriv ut nåt
+	console.log("\x1b[33m%s\x1b[0m", `\r\nÖppnar: ${inputFile} från ${timeMade[0]} - ${timeMade[1]}`)
         console.log(`\r\nKl. 05:00: ${myObj.Hour5} ${myObj.Currency}`);
 	});
 }
