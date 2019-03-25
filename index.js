@@ -53,11 +53,11 @@ function processFile(inputFile) {
 	});
 
 	rl.on('close', function (line) {
-        // slå ihop till objekt
-	keys.forEach((key, i) => myObj[key] = values[i]);
-		
-	// skriv ut nåt
-	console.log("\x1b[33m%s\x1b[0m", `\r\nÖppnar: ${inputFile} från ${timeMade[0]} - ${timeMade[1]}`)
-        console.log(`\r\nKl. 05:00: ${myObj.Hour5} ${myObj.Currency}`);
+		// slå ihop till objekt
+		keys.forEach((key, i) => myObj[key] = values[i]);
+
+		// skriv ut nåt
+		console.log("\x1b[33m%s\x1b[0m", `\r\nÖppnar: ${inputFile} från ${timeMade[0]} - ${timeMade[1]}`)
+		console.log(`\r\nKl. 05:00: ${myObj.Hour5} ${myObj.Currency}`);
 	});
 }
