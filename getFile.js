@@ -1,9 +1,9 @@
 var ftpClient = require('ftp-client'),
     config = {
-        host: 'ftp.nordpoolspot.com',
-        port: 21,
-        user: 'spot',
-        password: 'spo1245t'
+        host: '*',
+        port: *,
+        user: '*',
+        password: '*'
     },
     options = {
         logging: 'basic'
