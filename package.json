@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "ftp-client": "^0.2.2",
+    "basic-ftp": "^4.6.6",
+    "ftp-client": "^0.2.0",
     "lodash": ">=4.17.21",
     "minimatch": "^3.0.4"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "get": "node getRecentPrice.js"
   },
-  "author": "",
+  "author": "Johan",
   "license": "ISC"
 }
